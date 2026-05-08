@@ -8,4 +8,6 @@ Geplante Schemata:
 - Run State
 - Handoff
 - Review Finding
+- Agent Role
+- Consent Event
 - Conformance Manifest

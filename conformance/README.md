@@ -17,6 +17,39 @@ Eine Umsetzung ist `rlap-agent-workflow@0.1`-konform, wenn sie:
 - keine Menschen bewertet oder steuert,
 - keine sensiblen Daten ohne Grundlage in Prompts, Logs oder PRs trägt.
 
+## `rlap-network-agent@0.1`
+
+Eine Umsetzung ist `rlap-network-agent@0.1`-konform, wenn sie:
+
+- Agenten als Agenten erkennbar macht,
+- nur aus sichtbarem und zweckmäßigem Kontext handelt,
+- Vorschläge als freiwillige Einladungen formuliert,
+- Ablehnung und Nicht-Reaktion respektiert,
+- Sichtbarkeit und Zustimmung achtet,
+- Menschen nicht rankt oder steuert,
+- Human Gates für Vorstellungen, sensible Informationen, Konflikt, Kinder/Jugendliche und Sichtbarkeitserweiterung nutzt.
+
+## `rlap-memory-consent@0.1`
+
+Eine Umsetzung ist `rlap-memory-consent@0.1`-konform, wenn sie:
+
+- Session Context, Personal Memory, Space Memory, Artifact Memory und Public Knowledge unterscheidet,
+- Zustimmung zweckgebunden behandelt,
+- Weitergabe und Veröffentlichung trennt,
+- sensible Informationen minimiert,
+- Korrektur, Einschränkung oder Vergessen unterstützt,
+- keine verdeckten Profile oder Scores erzeugt.
+
+## `rlap-runner-integration@0.1`
+
+Eine Runner-Implementierung ist `rlap-runner-integration@0.1`-konform, wenn sie:
+
+- ihre Task-, Run-State- und Handoff-Artefakte auf RLAP-Begriffe mappen kann,
+- `rlap-agent-workflow@0.1` als implementiertes Profil ausweisen kann,
+- Scope-Gates, Checks, Review und Human Gates auditierbar macht,
+- keine Runner-spezifischen Details als allgemeine Agent-Norm ausgibt,
+- Auto-Merge nicht als Standardverhalten nutzt.
+
 ## Noch offen
 
 - Maschinenlesbares Conformance-Manifest.
@@ -24,4 +57,5 @@ Eine Umsetzung ist `rlap-agent-workflow@0.1`-konform, wenn sie:
 - Dependency-/Batch-Schema.
 - Handoff-Schema.
 - Review-Findings-Schema.
+- Role-Schema.
 - Beispiele für RLN-, WoT- und RLS-Tasks.

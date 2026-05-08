@@ -8,3 +8,5 @@ Erste sinnvolle Beispiele:
 - WoT-Spec-to-TypeScript-Reference-Task
 - Agent-Handoff nach Review
 - Human-Gate-Entscheidung
+- Network-Agent-Quest-Vorschlag
+- Connector-Agent-Vorstellung mit Zustimmung
