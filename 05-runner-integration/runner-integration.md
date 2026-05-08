@@ -111,6 +111,8 @@ Sinnvolle Entwicklungsschritte:
 6. Status-/Program-Reporting verbessern.
 7. Conformance-Report pro Run erzeugen.
 
+Die priorisierte Umsetzungsroadmap steht in [runner-roadmap.md](runner-roadmap.md).
+
 ## 7. Offene Fragen
 
 - Soll der Runner in `real-life-org/wot-agent-runner` bleiben oder später allgemeiner benannt werden?
