@@ -18,6 +18,10 @@ Es verallgemeinert das Muster, das bereits mit [real-life-org/wot-spec](https://
 Vision -> Spec -> Task -> Agentenarbeit -> PR/Artefakt -> Review -> Human Gate -> Feedback in Spec
 ```
 
+Die erste Spec ist bewusst pragmatisch: ein Runner Workflow Contract für kleine Tasks, harte Scope-Grenzen, Review, Human Gates, Merge-Disziplin und die Trennung von Protokollfragen, Domain-Mapping und Implementierungsdesign.
+
+Der Runner wird dabei als operative Steuerzentrale verstanden, nicht nur als Script-Starter.
+
 ## Abgrenzung
 
 | Repository | Rolle |
@@ -41,8 +45,9 @@ Vision -> Spec -> Task -> Agentenarbeit -> PR/Artefakt -> Review -> Human Gate -
 
 1. Agent Workflow Spec v0.1 stabilisieren.
 2. Ein minimales Task-Schema aus der Spec ableiten.
-3. Erste Beispiel-Tasks für RLN und WoT anlegen.
+3. Task-Abhängigkeiten und Batch-/Merge-Regeln maschinenlesbar machen.
 4. Conformance-Checklist für Agentenarbeit formulieren.
+5. Erste Beispiel-Tasks für RLN und WoT anlegen.
 
 ## Arbeitsweise
 
@@ -51,6 +56,7 @@ Vision -> Spec -> Task -> Agentenarbeit -> PR/Artefakt -> Review -> Human Gate -
 - Tasks haben Spec-Referenzen, Scope-Grenzen, Akzeptanzkriterien und Checks.
 - Human Gates bleiben verpflichtend für Merge, Release und normative Entscheidungen.
 - Offene Fragen werden zurück in Specs, Issues oder Entscheidungslogs gespielt.
+- Agenten unterscheiden Spec Ambiguity, Domain Mapping und Implementation Design.
 
 ## Lizenz
 
