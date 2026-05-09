@@ -43,16 +43,21 @@ Der P0-Fokus bleibt eng: Der bestehende Runner wird RLAP-konform als Build-Agent
 
 Der Runner muss dafür nicht umbenannt werden. Eine spätere Generalisierung soll über Program Plans und portable Task-/Handoff-/Run-State-Schemas entstehen, nicht über frühes Rebranding.
 
+**Stand 2026-05-10:** Die P0-Lane ist im [real-life-org/wot-agent-runner](https://github.com/real-life-org/wot-agent-runner) bis einschließlich PR #14 praktisch umgesetzt und dogfooded. Diese Roadmap bleibt als Quelle für offene P1/P2-Härtung und zur Einordnung der implementierten P0-Fähigkeiten bestehen.
+
 Empfohlene P0-Task-Slices:
 
-1. `rlap-task@0.1` JSON Schema definieren.
-2. Bestehende Runner-Task-JSONs gegen `rlap-task@0.1` validierbar machen.
-3. Runner-State auf `rlap-run-state@0.1` mappen.
-4. Agent Runner Summary als `rlap-handoff@0.1` strukturieren.
-5. Maschinenlesbaren Conformance Report pro Run erzeugen.
-6. Ambiguity Policy in Implementer-/Reviewer-Prompts verankern.
-7. Dependency-/Merge-Metadaten in Tasks ergänzen: `dependsOn`, `blocks`, `mergeGroup`, `recommendedMergeOrder`, `rebaseRequired`, `supersedes`.
-8. Selbstprüfung ausgeben: `implements: rlap-agent-workflow@0.1`.
+| Slice | Status |
+|---|---|
+| `rlap-task@0.1` JSON Schema definieren. | umgesetzt |
+| Bestehende Runner-Task-JSONs gegen `rlap-task@0.1` validierbar machen. | umgesetzt |
+| Runner-State auf `rlap-run-state@0.1` mappen. | umgesetzt |
+| Agent Runner Summary als `rlap-handoff@0.1` strukturieren. | umgesetzt |
+| Maschinenlesbaren Conformance Report pro Run erzeugen. | umgesetzt |
+| Ambiguity Policy in Implementer-/Reviewer-Prompts verankern. | umgesetzt |
+| Dependency-/Merge-Metadaten in Tasks ergänzen: `dependsOn`, `blocks`, `mergeGroup`, `recommendedMergeOrder`, `rebaseRequired`, `supersedes`. | umgesetzt |
+| Selbstprüfung ausgeben: `implements: rlap-agent-workflow@0.1`. | umgesetzt |
+| Review-Finding-Coverage mit Evidence-Regeln ergänzen. | umgesetzt |
 
 ### 3.1 Aktuelle Review-Blocker korrekt bestimmen
 

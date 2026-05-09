@@ -47,12 +47,18 @@ Der Runner implementiert konkret:
 
 ## 3. Implementierte Profile
 
-Der aktuelle Runner ist Kandidat für:
+Der aktuelle Runner ist nach den P0-Slices vom 2026-05-09 Kandidat für:
 
 ```text
 implements:
 - rlap-agent-workflow@0.1
+- rlap-task@0.1
+- rlap-run-state@0.1
+- rlap-handoff@0.1
+- rlap-conformance-report@0.1
 ```
+
+Das ist ein Implementierungs-Claim des [real-life-org/wot-agent-runner](https://github.com/real-life-org/wot-agent-runner), nicht automatisch eine Norm für alle Runner.
 
 Er implementiert NICHT automatisch:
 
@@ -77,6 +83,32 @@ Der Runner ist ein Build-Agent-Runtime-System, kein sozialer Network Agent.
 | State | Runner State JSON und Queue Status |
 | Human Gate | `human-gate`, `ready-for-human`, PR bleibt ungemerged |
 | GitHub Mirror | PR, Labels, Kommentare, Review-Threads |
+
+## 4.1 P0-Evidence aus dem aktuellen Runner
+
+Der aktuelle Runner-Main enthält nach den gemergten PRs #10-#14 folgende RLAP-relevante Fähigkeiten:
+
+| PR | Fähigkeit | RLAP-Bezug |
+|---|---|---|
+| [#10](https://github.com/real-life-org/wot-agent-runner/pull/10) | aktuelle unresolved GitHub Review Threads blockieren korrekt | Review Rules, Run State |
+| [#11](https://github.com/real-life-org/wot-agent-runner/pull/11) | Program Merge Context aus Task-Dependency-Metadaten | `rlap-task@0.1`, Handoff |
+| [#12](https://github.com/real-life-org/wot-agent-runner/pull/12) | Control-Plane Dashboard liest Program Progress aus Handoffs | Handoff als nachgelagertes Agenten-/Dashboard-Artefakt |
+| [#13](https://github.com/real-life-org/wot-agent-runner/pull/13) | Attach/Refresh-Modus ohne neue Review-Requests, Label-Sync, Thread-State-Härtung | Run State, Review Orchestration |
+| [#14](https://github.com/real-life-org/wot-agent-runner/pull/14) | Review Finding Coverage mit Evidence-Regeln | Handoff, Definition of Done |
+
+Vor diesen PRs wurden bereits Schema-backed Artefakte eingeführt: `rlap-run-state.json`, `rlap-handoff.json`, `rlap-conformance-report.json` und `schemaValidations[]` gegen die RLAP-Schemas.
+
+## 4.2 Reporting-Only Extensions
+
+Einige Runner-Artefakte sind aktuell Runner-spezifische Erweiterungen und keine allgemeinen RLAP-Profile:
+
+| Erweiterung | Bedeutung |
+|---|---|
+| `runner-program-merge-context@0.1` | Dependency-, Merge-Lane- und Reihenfolgeprojektion für PR-Programme |
+| `reviewFindingCoverage` | strukturierte Evidence-Abdeckung für adressierte Review-Findings |
+| `integrationStatus` | Projektion, ob PR-Head oder Merge-Commit in der Zielbranch angekommen ist |
+
+Diese Felder sind bewusst `reporting-only`. Sie dürfen Dashboards, Human Maintainer und nachgelagerte Agenten informieren, aber nicht automatisch mergen, retargeten oder fachliche Entscheidungen treffen.
 
 ## 5. Integrationsregeln
 
@@ -105,13 +137,14 @@ Phase 1 SOLLTE keine frühe Rename-/Rebrand-Aktion erzwingen. `wot-agent-runner`
 
 Sinnvolle Entwicklungsschritte:
 
-1. `rlap-agent-workflow@0.1` in README und PR-Summary referenzieren.
-2. Task-JSON-Felder gegen RLAP-Begriffe dokumentieren.
-3. Ambiguity Policy in Prompts übernehmen.
-4. Handoff-Felder standardisieren.
-5. Dependency-/Batch-Modell ergänzen.
-6. Status-/Program-Reporting verbessern.
-7. Conformance-Report pro Run erzeugen.
+1. `rlap-agent-workflow@0.1` in README und PR-Summary referenzieren. Status: umgesetzt.
+2. Task-JSON-Felder gegen RLAP-Begriffe dokumentieren. Status: umgesetzt als `rlap-task@0.1`-Schema-Mapping.
+3. Ambiguity Policy in Prompts übernehmen. Status: umgesetzt als Review-/Prompt-Regel.
+4. Handoff-Felder standardisieren. Status: umgesetzt als `rlap-handoff.json` mit stabilem Summary-Kern.
+5. Dependency-/Batch-Modell ergänzen. Status: umgesetzt als Program Merge Context.
+6. Status-/Program-Reporting verbessern. Status: umgesetzt als Dashboard-Projektion aus Handoffs.
+7. Conformance-Report pro Run erzeugen. Status: umgesetzt inklusive Schema-Validierungen.
+8. Review-Finding-Coverage aus PR-Learnings ergänzen. Status: umgesetzt nach PR #13/#14.
 
 Die priorisierte Umsetzungsroadmap steht in [runner-roadmap.md](runner-roadmap.md).
 

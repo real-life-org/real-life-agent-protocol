@@ -1,0 +1,55 @@
+{
+  "id": "runner-review-finding-coverage-slice",
+  "title": "Add review finding coverage reporting",
+  "kind": "implementation",
+  "repo": "wot-agent-runner",
+  "baseBranch": "main",
+  "targetBranch": "agent/runner-review-finding-coverage-20260509",
+  "specRefs": [
+    "https://github.com/real-life-org/real-life-agent-protocol/blob/main/01-build-agent-workflow/agent-workflow-spec.md#141-review-finding-coverage",
+    "https://github.com/real-life-org/real-life-agent-protocol/blob/main/03-build-agent-handoff/handoff-and-conformance-report.md"
+  ],
+  "contextRefs": [
+    "https://github.com/real-life-org/wot-agent-runner/blob/main/README.md",
+    "https://github.com/real-life-org/wot-agent-runner/blob/main/docs/github-loop.md"
+  ],
+  "allowedScope": [
+    "src/runner.mjs",
+    "scripts/review-gate-tests.mjs",
+    "README.md",
+    "docs/github-loop.md"
+  ],
+  "forbiddenScope": [
+    "../wot-spec/",
+    "../real-life-network-protocol/",
+    "../real-life-agent-protocol/10-network-agent-behavior/"
+  ],
+  "acceptance": [
+    "Reviewer structured JSON supports findingResolutions with fixed, not-applicable, and needs-human statuses.",
+    "Fixed finding resolutions require regressionTest or noTestReason.",
+    "not-applicable and needs-human resolutions require notes.",
+    "Review Finding Coverage appears in the GitHub summary and RLAP handoff.",
+    "npm run check, node scripts/review-gate-tests.mjs, npm run dry-run, and git diff --check stay green."
+  ],
+  "checks": [
+    "npm run check",
+    "node scripts/review-gate-tests.mjs",
+    "npm run dry-run",
+    "git diff --check"
+  ],
+  "humanGates": [
+    "No auto-merge.",
+    "Human verifies that findingResolutions are sufficient evidence for addressed review findings."
+  ],
+  "dependsOn": [
+    "https://github.com/real-life-org/wot-agent-runner/pull/13"
+  ],
+  "mergeGroup": "runner-rlap-p0",
+  "recommendedMergeOrder": 8,
+  "rebaseRequired": false,
+  "review": {
+    "githubReviewers": ["copilot", "coderabbit"],
+    "waitForGithubReviews": true,
+    "maxFixIterations": 0
+  }
+}

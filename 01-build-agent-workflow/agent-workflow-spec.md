@@ -314,6 +314,7 @@ Definition of Done für einen PR-Task:
 - stale/outdated Review-Kommentare sind nicht als aktuelle Blocker gezählt.
 - PR-Labels spiegeln den aktuellen Zustand.
 - Agent Runner Summary enthält Run-ID, Checks, Issues und Residual Risk.
+- Review Finding Coverage ist ausgewiesen, wenn vorherige lokale, GitHub- oder menschliche Findings adressiert oder klassifiziert wurden.
 - PR bleibt ohne menschliche Entscheidung ungemerged.
 
 Für Spec- oder Playbook-Tasks gilt entsprechend: Artefakt ist sichtbar, Review ist abgeschlossen, offene Fragen sind markiert und normative Entscheidungen sind nicht automatisiert worden.
@@ -391,8 +392,55 @@ Review ist mehrstufig:
 - späte Review-Kommentare können `ready-for-human` wieder zu `fix-required` machen.
 - Reviewer dürfen zusätzliche Checks nur aus einer erlaubten Command-Liste anfordern.
 - fehlende oder unstrukturierte Review-Ausgabe SOLLTE ein Human Gate erzeugen.
+- adressierte Findings SOLLTEN nicht nur als "resolved" markiert werden, sondern mit Evidence oder Begründung im Handoff sichtbar bleiben.
 
 Ein Review MUSS zwischen echten Bugs, Conformance-Risiken, Stilfragen und fachlichen Klärungen unterscheiden.
+
+### 14.1 Review Finding Coverage
+
+Wenn ein Finding aus lokaler Review, GitHub Review, Review Bot oder menschlichem Review adressiert wird, SOLLTE der nächste Review-/Handoff-Zustand eine strukturierte `findingResolution` oder gleichwertige Evidenz enthalten.
+
+Zulässige Resolution-Klassen:
+
+| Status | Bedeutung | Erforderliche Evidenz |
+|---|---|---|
+| `fixed` | Finding wurde durch Code, Spec, Test oder Dokumentation behoben. | `regressionTest` oder `noTestReason` |
+| `not-applicable` | Finding trifft auf den aktuellen Head oder Scope nicht zu. | `notes` mit Begründung |
+| `needs-human` | Finding ist keine reine Implementierungsfrage. | `notes` mit Entscheidungskontext |
+
+Ein Runner SOLLTE structured review output als ungültig behandeln, wenn eine `fixed`-Resolution weder Testevidenz noch `noTestReason` enthält. Für `not-applicable` und `needs-human` MUSS die Begründung menschlich lesbar sein; reine Thread-Resolution reicht nicht.
+
+Ein Handoff SOLLTE getrennt ausweisen:
+
+- offene Findings,
+- behobene Findings mit Evidence,
+- bewusst nicht anwendbare Findings,
+- Findings, die ein Human Gate brauchen.
+
+### 14.2 GitHub Review Thread Semantik
+
+GitHub REST-Kommentare und GraphQL Review Threads können unterschiedliche Aktualitätssignale liefern. Eine Umsetzung SOLLTE aktuelle unresolved Review Threads als maßgeblich behandeln, wenn REST-Kommentardaten allein den Zustand nicht sicher erklären.
+
+Mindestregeln:
+
+- unresolved, nicht-outdated automatisierte Review Threads auf dem aktuellen Head blockieren `ready-for-human`.
+- resolved oder outdated Threads blockieren nicht.
+- reine Status-/Summary-Issue-Kommentare von Bots blockieren nicht ohne konkretes Review-Finding.
+- vor einem finalen `ready-for-human` SOLLTE ein frischer Review-Snapshot eingeholt werden.
+
+### 14.3 Attach/Refresh Runs
+
+Ein Runner SOLLTE bestehende PRs refreshen können, ohne neue externe Reviews anzufordern.
+
+Ein Attach/Refresh Run SOLLTE:
+
+- Implementierung überspringen können,
+- konfigurierte Checks erneut ausführen,
+- aktuellen GitHub Review-/Thread-Zustand sammeln,
+- Summary und Labels aktualisieren,
+- keine neue Copilot-/CodeRabbit-Review anfordern, wenn dies nicht explizit gewünscht ist.
+
+Attach/Refresh ist kein Merge- oder Rebase-Modus. Er dient Statusklarheit und Handoff-Aktualisierung.
 
 ## 15. Betriebsrisiken und Gegenmaßnahmen
 
@@ -404,6 +452,7 @@ Ein Review MUSS zwischen echten Bugs, Conformance-Risiken, Stilfragen und fachli
 | Auto-Fix-Prompts werden zu groß. | Fix-Scope klein halten, Findings bündeln, große Aufgaben splitten. |
 | Runner kann Slices, aber kein ganzes Programm konsolidieren. | Fortschritts- und Boundary-Docs als eigene Tasks führen. |
 | Agenten melden zu viele Spec Issues. | Ambiguity Policy anwenden. |
+| Findings werden als "resolved" behandelt, ohne Regression oder Begründung. | Review Finding Coverage verlangen. |
 
 ## 16. Handoff und Reporting
 
@@ -420,6 +469,7 @@ Ein Handoff enthält:
 - erfüllte Akzeptanzkriterien,
 - ausgeführte Checks,
 - Review-Ergebnis,
+- Review Finding Coverage,
 - Issues und Spec-Fragen,
 - Blocker,
 - bekannte Risiken,
