@@ -1,7 +1,7 @@
 # Runner Roadmap
 
 **Status:** Entwurf v0.1
-**Datum:** 2026-05-09
+**Datum:** 2026-05-10
 **Scope:** Priorisierte Weiterentwicklung des [real-life-org/wot-agent-runner](https://github.com/real-life-org/wot-agent-runner) auf Basis von `rlap-agent-workflow@0.1`.
 
 ---

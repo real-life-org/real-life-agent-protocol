@@ -43,33 +43,25 @@
     }
   ],
   "reviewStatus": {
-    "localReviewer": {
-      "verdict": "approve",
-      "structuredStatus": "valid"
-    },
-    "githubReviews": {
-      "status": "collected",
-      "openFindingCount": 0
-    },
-    "findingCoverage": {
-      "status": "no-findings",
-      "openFindingCount": 0,
-      "resolutionCount": 0,
-      "fixedCount": 0,
-      "notApplicableCount": 0,
-      "needsHumanCount": 0
-    },
-    "threadResolution": {
-      "status": "not-needed",
-      "resolvedCount": 0,
-      "failedCount": 0
-    }
+    "local": "approve",
+    "structured": "valid",
+    "findingCoverage": "no-findings",
+    "reviewerTests": "not-requested",
+    "githubReviewGate": "not-required",
+    "github": "collected",
+    "githubThreadResolution": "not-needed"
   },
   "programMergeContext": {
     "profile": "runner-program-merge-context@0.1",
+    "status": "dependencies-declared",
+    "mergeReadiness": "requires-dependency-verification",
     "mergeGroup": "runner-rlap-p0",
     "recommendedMergeOrder": 8,
-    "mergeReadiness": "requires-human-merge"
+    "mergePositionKey": "runner-rlap-p0:000008",
+    "dependsOn": [
+      "https://github.com/real-life-org/wot-agent-runner/pull/13"
+    ],
+    "rebaseRequired": false
   },
   "artifacts": {
     "statePath": "runs/runner-review-finding-coverage-slice-2026-05-09T22-15-44-730Z/state.json",
@@ -78,10 +70,43 @@
     "conformanceReportPath": "runs/runner-review-finding-coverage-slice-2026-05-09T22-15-44-730Z/rlap-conformance-report.json"
   },
   "summary": {
-    "decision": "ready-for-human",
-    "scopeGate": "pass",
-    "checkStatus": "pass",
-    "reviewStatus": "pass"
+    "decision": {
+      "status": "ready-for-human",
+      "reason": "Prototype run completed without detected blockers."
+    },
+    "scopeGate": {
+      "status": "pass",
+      "violationCount": 0
+    },
+    "reviewer": {
+      "verdict": "approve",
+      "structuredStatus": "valid",
+      "findingCount": 0,
+      "findingCoverageStatus": "no-findings",
+      "findingResolutionCount": 0,
+      "openFindingCount": 0
+    },
+    "githubReviews": {
+      "status": "collected",
+      "reviewCount": 0,
+      "reviewCommentCount": 0,
+      "issueCommentCount": 0
+    },
+    "programMerge": {
+      "status": "dependencies-declared",
+      "mergeReadiness": "requires-dependency-verification",
+      "mergeGroup": "runner-rlap-p0",
+      "recommendedMergeOrder": 8,
+      "mergePositionKey": "runner-rlap-p0:000008",
+      "requiresHumanVerification": true
+    },
+    "githubReviewThreadResolution": {
+      "status": "not-needed",
+      "resolvedCount": 0,
+      "failedCount": 0
+    },
+    "checksTotal": 4,
+    "checksFailed": 0
   },
   "issues": [],
   "blockers": [],

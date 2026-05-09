@@ -46,18 +46,18 @@ Ein `rlap-handoff@0.1` SOLLTE enthalten:
 | `humanGates[]` | menschliche Entscheidungen |
 | `followUps[]` | empfohlene nächste Tasks |
 
-`reviewStatus.findingCoverage` SOLLTE mindestens enthalten:
+Der aktuelle [wot-agent-runner](https://github.com/real-life-org/wot-agent-runner) schreibt `reviewStatus.findingCoverage` als kompakten Status-String. Die zugehörigen Counts liegen im Handoff unter `summary.reviewer`.
+
+Aktuelle Runner-kompatible Felder:
 
 | Feld | Bedeutung |
 |---|---|
-| `status` | `not-run`, `no-findings`, `open`, `covered`, `incomplete`, `needs-human` oder `invalid` |
-| `openFindingCount` | Anzahl aktueller offener Findings |
-| `resolutionCount` | Anzahl strukturierter Resolutionen |
-| `fixedCount` | Anzahl behobener Findings |
-| `notApplicableCount` | Anzahl begründet nicht anwendbarer Findings |
-| `needsHumanCount` | Anzahl Findings, die menschliche Entscheidung brauchen |
+| `reviewStatus.findingCoverage` | `not-run`, `no-findings`, `open`, `covered`, `incomplete`, `needs-human` oder `invalid` |
+| `summary.reviewer.findingCoverageStatus` | gleicher Coverage-Status für kompakte Dashboard-Auswertung |
+| `summary.reviewer.findingResolutionCount` | Anzahl strukturierter Resolutionen |
+| `summary.reviewer.openFindingCount` | Anzahl aktueller offener Findings |
 
-Eine Umsetzung SOLLTE `covered` nur melden, wenn keine aktuellen offenen Findings mehr existieren und alle Resolutionen die geforderte Evidence oder Begründung tragen.
+Eine Umsetzung SOLLTE `covered` nur melden, wenn keine aktuellen offenen Findings mehr existieren und alle Resolutionen die geforderte Evidence oder Begründung tragen. Ein späteres eigenes Review-Findings-Schema KANN daraus ein reichhaltigeres Objekt machen; bis dahin müssen Handoff-Consumer die aktuelle Runner-Form unterstützen.
 
 ## 3. Maschinenlesbarer Conformance Report
 
@@ -129,19 +129,11 @@ Mindestens erwartet werden Validierungen für:
     "violations": []
   },
   "handoffSchemaValid": true,
-  "reviewFindingCoverage": {
-    "status": "covered",
-    "openFindingCount": 0,
-    "resolutionCount": 2,
-    "fixedCount": 2,
-    "notApplicableCount": 0,
-    "needsHumanCount": 0
-  },
   "programMergeContext": {
     "profile": "runner-program-merge-context@0.1",
     "mergeGroup": "runner-rlap-p0",
     "recommendedMergeOrder": 8,
-    "mergeReadiness": "ready-for-human"
+    "mergeReadiness": "requires-dependency-verification"
   },
   "humanGateStatus": {
     "status": "open",
