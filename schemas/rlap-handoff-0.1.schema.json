@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-handoff-0.1.schema.json",
+  "title": "rlap-handoff@0.1",
+  "type": "object",
+  "required": ["profile", "taskId", "runId", "result", "humanGates"],
+  "properties": {
+    "profile": { "const": "rlap-handoff@0.1" },
+    "taskId": { "$ref": "#/$defs/nonEmptyString" },
+    "runId": { "$ref": "#/$defs/nonEmptyString" },
+    "prUrl": { "type": ["string", "null"] },
+    "commits": { "$ref": "#/$defs/stringArray" },
+    "specRefs": { "$ref": "#/$defs/stringArray" },
+    "changedFiles": { "$ref": "#/$defs/stringArray" },
+    "acceptanceStatus": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "checks": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "reviewStatus": { "type": "object", "additionalProperties": true },
+    "issues": { "$ref": "#/$defs/stringArray" },
+    "blockers": { "$ref": "#/$defs/stringArray" },
+    "residualRisk": { "$ref": "#/$defs/stringArray" },
+    "humanGates": { "$ref": "#/$defs/stringArray" },
+    "followUps": { "$ref": "#/$defs/stringArray" },
+    "result": {
+      "type": "string",
+      "enum": ["passed", "ready-for-human", "fix-required", "human-gate", "not-conformant", "completed"]
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    }
+  }
+}

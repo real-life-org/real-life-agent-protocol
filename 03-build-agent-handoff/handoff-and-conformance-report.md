@@ -50,35 +50,45 @@ Ein `rlap-conformance-report@0.1` SOLLTE mindestens prüfen:
 |---|---|
 | `taskSchemaValid` | Task erfüllt `rlap-task@0.1` |
 | `stateTransitionsValid` | Run-Zustände sind gültig |
-| `checksExecuted` | konfigurierte Checks wurden ausgeführt oder begründet übersprungen |
-| `scopeGate` | Scope-Gate-Ergebnis |
+| `checksExecuted` | boolesches Signal, ob konfigurierte Checks ausgeführt wurden |
+| `checks` | ausgeführte oder geplante Checks mit Ergebnis |
+| `scopeGateResult` | Scope-Gate-Ergebnis |
 | `handoffSchemaValid` | Handoff erfüllt `rlap-handoff@0.1` |
 | `humanGateStatus` | Human Gates sind offen, erfüllt oder nicht anwendbar |
-| `ambiguityPolicyApplied` | Spec/Domain/Implementation-Klärung wurde angewandt |
+| `ambiguityPolicyApplied` | boolesches Signal, ob Spec/Domain/Implementation-Klärung angewandt wurde |
 | `prStatusLinks` | PR, Checks, Reviews und Summary sind verlinkt |
 
 ## 4. Beispiel
 
 ```json
 {
-  "schema": "rlap:conformance-report",
-  "schemaVersion": 1,
-  "profile": "rlap-agent-workflow@0.1",
-  "taskId": "runner-review-thread-current-state",
-  "runId": "runner-review-thread-current-state-2026-05-09T10-30-00Z",
-  "result": "ready-for-human",
+  "profile": "rlap-conformance-report@0.1",
+  "generatedAt": "2026-05-09T10:30:00Z",
+  "runner": {
+    "name": "wot-agent-runner-prototype",
+    "repository": "https://github.com/real-life-org/wot-agent-runner",
+    "implements": ["rlap-agent-workflow@0.1"]
+  },
+  "run": {
+    "taskId": "runner-review-thread-current-state",
+    "runId": "runner-review-thread-current-state-2026-05-09T10-30-00Z",
+    "decisionStatus": "ready-for-human",
+    "rlapRunState": "ready-for-human"
+  },
   "taskSchemaValid": true,
   "stateTransitionsValid": true,
-  "checksExecuted": {
-    "status": "passed",
-    "commands": [
-      { "command": "npm test", "status": "passed" },
-      { "command": "git diff --check", "status": "passed" }
+  "checksExecuted": true,
+  "checks": {
+    "executed": true,
+    "status": "pass",
+    "results": [
+      { "command": "npm test", "status": "pass" },
+      { "command": "git diff --check", "status": "pass" }
     ]
   },
-  "scopeGate": {
-    "status": "passed",
-    "allowedScope": ["src/", "docs/"],
+  "scopeGateResult": {
+    "status": "pass",
+    "violationCount": 0,
     "violations": []
   },
   "handoffSchemaValid": true,
@@ -88,13 +98,16 @@ Ein `rlap-conformance-report@0.1` SOLLTE mindestens prüfen:
       "Human decides whether GitHub thread classification is trustworthy enough for label automation."
     ]
   },
-  "ambiguityPolicyApplied": {
-    "status": "not-applicable",
-    "items": []
-  },
+  "ambiguityPolicyApplied": true,
   "prStatusLinks": {
-    "pr": "https://github.com/real-life-org/wot-agent-runner/pull/123",
-    "summary": "https://github.com/real-life-org/wot-agent-runner/pull/123#issuecomment-..."
+    "prUrl": "https://github.com/real-life-org/wot-agent-runner/pull/123",
+    "summaryPath": "runs/.../github-run-summary.md",
+    "statePath": "runs/.../state.json",
+    "conformanceReportPath": "runs/.../rlap-conformance-report.json"
+  },
+  "summary": {
+    "valid": true,
+    "status": "ready-for-human"
   }
 }
 ```

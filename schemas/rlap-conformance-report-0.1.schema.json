@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-conformance-report-0.1.schema.json",
+  "title": "rlap-conformance-report@0.1",
+  "type": "object",
+  "required": [
+    "profile",
+    "generatedAt",
+    "runner",
+    "run",
+    "taskSchemaValid",
+    "stateTransitionsValid",
+    "checksExecuted",
+    "scopeGateResult",
+    "handoffSchemaValid",
+    "humanGateStatus",
+    "prStatusLinks",
+    "ambiguityPolicyApplied",
+    "summary"
+  ],
+  "properties": {
+    "profile": { "const": "rlap-conformance-report@0.1" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "runner": {
+      "type": "object",
+      "required": ["name", "implements"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "repository": { "type": "string" },
+        "implements": { "$ref": "#/$defs/stringArray" }
+      },
+      "additionalProperties": true
+    },
+    "run": {
+      "type": "object",
+      "required": ["runId", "taskId", "decisionStatus", "rlapRunState"],
+      "properties": {
+        "runId": { "$ref": "#/$defs/nonEmptyString" },
+        "taskId": { "$ref": "#/$defs/nonEmptyString" },
+        "taskKind": { "type": "string" },
+        "decisionStatus": { "type": "string" },
+        "decisionReason": { "type": "string" },
+        "rlapRunState": {
+          "type": "string",
+          "enum": [
+            "proposed",
+            "queued",
+            "running",
+            "checks-failed",
+            "fix-required",
+            "ready-for-human",
+            "human-gate",
+            "merged",
+            "superseded",
+            "closed",
+            "completed"
+          ]
+        },
+        "workspaceRoot": { "type": ["string", "null"] },
+        "branchName": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "profile": { "const": "rlap-task@0.1" },
+        "schemaValid": { "type": "boolean" },
+        "errors": { "$ref": "#/$defs/stringArray" },
+        "dependencyMetadata": { "type": "object", "additionalProperties": true }
+      },
+      "additionalProperties": true
+    },
+    "runState": {
+      "type": "object",
+      "properties": {
+        "profile": { "const": "rlap-run-state@0.1" },
+        "stateTransitionsValid": { "type": "boolean" },
+        "finalState": { "type": "string" },
+        "transitionLogAvailable": { "type": "boolean" },
+        "transitionLogPath": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "handoff": {
+      "type": "object",
+      "properties": {
+        "profile": { "const": "rlap-handoff@0.1" },
+        "schemaValid": { "type": "boolean" },
+        "summaryPath": { "type": ["string", "null"] },
+        "statePath": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "taskSchemaValid": { "type": "boolean" },
+    "stateTransitionsValid": { "type": "boolean" },
+    "checksExecuted": { "type": "boolean" },
+    "checks": {
+      "type": "object",
+      "required": ["executed", "status", "results"],
+      "properties": {
+        "executed": { "type": "boolean" },
+        "status": { "type": "string" },
+        "results": {
+          "type": "array",
+          "items": { "type": "object", "additionalProperties": true }
+        }
+      },
+      "additionalProperties": true
+    },
+    "scopeGateResult": {
+      "type": "object",
+      "required": ["status", "violationCount", "violations"],
+      "properties": {
+        "status": { "type": "string" },
+        "violationCount": { "type": "integer", "minimum": 0 },
+        "violations": {
+          "type": "array",
+          "items": { "type": "object", "additionalProperties": true }
+        }
+      },
+      "additionalProperties": true
+    },
+    "handoffSchemaValid": { "type": "boolean" },
+    "humanGateStatus": {
+      "type": "object",
+      "required": ["status", "gates"],
+      "properties": {
+        "status": { "type": "string" },
+        "reason": { "type": "string" },
+        "gates": { "$ref": "#/$defs/stringArray" }
+      },
+      "additionalProperties": true
+    },
+    "prStatusLinks": {
+      "type": "object",
+      "properties": {
+        "prUrl": { "type": ["string", "null"] },
+        "summaryPath": { "type": ["string", "null"] },
+        "statePath": { "type": ["string", "null"] },
+        "conformanceReportPath": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "ambiguityPolicyApplied": { "type": "boolean" },
+    "ambiguityPolicy": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": ["valid", "status"],
+      "properties": {
+        "valid": { "type": "boolean" },
+        "status": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    }
+  }
+}

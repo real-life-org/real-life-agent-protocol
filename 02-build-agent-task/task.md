@@ -28,7 +28,8 @@ Dieses Profil gehört zur Build-Agent-Familie. Es beschreibt nicht das Verhalten
 | `id` | ja | stabile Task-ID |
 | `title` | ja | kurze menschenlesbare Aufgabe |
 | `kind` | ja | `spec`, `implementation`, `test`, `playbook`, `rollout`, `review`, `ops` |
-| `repo` | ja | Zielrepository oder lokaler Repo-Key |
+| `repo` | ja* | Zielrepository oder lokaler Repo-Key |
+| `repoRoot` | kompatibel | aktueller Alias des `wot-agent-runner`; portable Runtimes SOLLTEN langfristig `repo` verwenden |
 | `baseBranch` | empfohlen | Branch, auf dem der Task starten soll |
 | `targetBranch` | empfohlen | Branch, der für PR/Run verwendet wird |
 | `specRefs[]` | ja | konkrete Spec-Abschnitte oder Dateien |
@@ -38,6 +39,8 @@ Dieses Profil gehört zur Build-Agent-Familie. Es beschreibt nicht das Verhalten
 | `acceptance[]` | ja | prüfbare Akzeptanzkriterien |
 | `checks[]` | ja | auszuführende Checks |
 | `humanGates[]` | ja | Entscheidungen, die nicht automatisiert werden dürfen |
+
+\* Für `rlap-task@0.1` MUSS entweder `repo` oder der Kompatibilitätsalias `repoRoot` gesetzt sein.
 
 ## 4. Dependency- und Merge-Metadaten
 
@@ -120,4 +123,5 @@ Ein `rlap-task@0.1` ist ready, wenn:
 - Soll `repo` ein GitHub-Slug, lokaler Pfad oder stabiler Program-Key sein?
 - Wie werden PR-URLs und Task-IDs in `dependsOn` gemeinsam normalisiert?
 - Soll `recommendedMergeOrder` numerisch oder deklarativ sein?
-- Welche Task-Felder sind Runner-spezifisch und welche gehören ins portable RLAP-Schema?
+- Wann wird der Kompatibilitätsalias `repoRoot` im Runner durch `repo` ersetzt?
+- Welche weiteren Task-Felder sind Runner-spezifisch und welche gehören ins portable RLAP-Schema?

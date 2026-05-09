@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-run-state-0.1.schema.json",
+  "title": "rlap-run-state@0.1",
+  "type": "object",
+  "required": ["profile", "runId", "taskId", "state"],
+  "properties": {
+    "profile": { "const": "rlap-run-state@0.1" },
+    "runId": { "$ref": "#/$defs/nonEmptyString" },
+    "taskId": { "$ref": "#/$defs/nonEmptyString" },
+    "state": { "$ref": "#/$defs/runState" },
+    "previousState": { "$ref": "#/$defs/runState" },
+    "decisionStatus": { "type": "string" },
+    "decisionReason": { "type": "string" },
+    "transitionedAt": { "type": "string", "format": "date-time" },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "at"],
+        "properties": {
+          "from": { "$ref": "#/$defs/runState" },
+          "to": { "$ref": "#/$defs/runState" },
+          "at": { "type": "string", "format": "date-time" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "runState": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "queued",
+        "running",
+        "checks-failed",
+        "fix-required",
+        "ready-for-human",
+        "human-gate",
+        "merged",
+        "superseded",
+        "closed",
+        "completed"
+      ]
+    }
+  }
+}

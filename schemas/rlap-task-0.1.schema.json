@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-task-0.1.schema.json",
+  "title": "rlap-task@0.1",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "kind",
+    "specRefs",
+    "allowedScope",
+    "acceptance",
+    "checks",
+    "humanGates"
+  ],
+  "anyOf": [
+    { "required": ["repo"] },
+    { "required": ["repoRoot"] }
+  ],
+  "properties": {
+    "id": { "$ref": "#/$defs/nonEmptyString" },
+    "title": { "$ref": "#/$defs/nonEmptyString" },
+    "kind": {
+      "type": "string",
+      "enum": ["spec", "implementation", "test", "playbook", "rollout", "review", "ops"]
+    },
+    "repo": { "$ref": "#/$defs/nonEmptyString" },
+    "repoRoot": {
+      "$ref": "#/$defs/nonEmptyString",
+      "description": "Compatibility alias used by the current wot-agent-runner."
+    },
+    "baseBranch": { "$ref": "#/$defs/nonEmptyString" },
+    "targetBranch": { "$ref": "#/$defs/nonEmptyString" },
+    "specRefs": { "$ref": "#/$defs/stringArray" },
+    "contextRefs": { "$ref": "#/$defs/stringArray" },
+    "allowedScope": { "$ref": "#/$defs/stringArray" },
+    "forbiddenScope": { "$ref": "#/$defs/stringArray" },
+    "acceptance": { "$ref": "#/$defs/stringArray" },
+    "checks": { "$ref": "#/$defs/stringArray" },
+    "humanGates": { "$ref": "#/$defs/stringArray" },
+    "dependsOn": { "$ref": "#/$defs/stringArray" },
+    "blocks": { "$ref": "#/$defs/stringArray" },
+    "mergeGroup": { "$ref": "#/$defs/nonEmptyString" },
+    "recommendedMergeOrder": {
+      "oneOf": [
+        { "type": "number" },
+        { "$ref": "#/$defs/nonEmptyString" }
+      ]
+    },
+    "rebaseRequired": { "type": "boolean" },
+    "supersedes": { "$ref": "#/$defs/stringArray" },
+    "requestCopilotReview": { "type": "boolean" },
+    "requestCodeRabbitReview": { "type": "boolean" },
+    "review": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "githubReviewers": { "$ref": "#/$defs/stringArray" },
+        "waitForGithubReviews": { "type": "boolean" },
+        "requireGithubReview": { "type": "boolean" },
+        "githubReviewTimeoutMinutes": { "type": "number", "minimum": 0 },
+        "githubReviewPollIntervalSeconds": { "type": "number", "exclusiveMinimum": 0 },
+        "maxFixIterations": { "type": "integer", "minimum": 0 },
+        "resolveStaleAutomatedReviewThreads": { "type": "boolean" }
+      }
+    },
+    "github": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "prUrl": { "$ref": "#/$defs/nonEmptyString" },
+        "worktree": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "tdd": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "required": { "type": "boolean" },
+        "testLayer": { "type": "string" },
+        "redCommand": { "type": "string" },
+        "greenCommands": { "$ref": "#/$defs/stringArray" },
+        "evidence": { "$ref": "#/$defs/stringArray" },
+        "notes": { "type": "string" }
+      }
+    },
+    "labels": { "$ref": "#/$defs/stringArray" },
+    "setupCommands": { "$ref": "#/$defs/stringArray" },
+    "reviewerAllowedCommands": { "$ref": "#/$defs/stringArray" }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    }
+  }
+}
