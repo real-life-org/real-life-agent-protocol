@@ -58,11 +58,11 @@ Der größere Rahmen unterscheidet zwei Agentenfamilien:
 
 ## Aktueller Arbeitsfokus
 
-1. `01-build-agent-workflow` als Runner-kompatiblen Workflow Contract stabilisieren.
-2. `02-build-agent-task` und `03-build-agent-handoff` als P0-Profile konkretisieren.
-3. `05-build-runner-integration` und die Runner-Roadmap auf den bestehenden WoT Agent Runner anwenden.
+1. Build-Agent-RLAP mit dem aktuellen [real-life-org/wot-agent-runner](https://github.com/real-life-org/wot-agent-runner) synchron halten.
+2. Den Runner-Conformance-Claim unter [conformance/wot-agent-runner-build-conformance.md](conformance/wot-agent-runner-build-conformance.md) weiter schärfen.
+3. Beispiele für Task, Handoff und Conformance-Artefakte aus echten Runner-Runs ausbauen.
 4. Network-Agent-Profile ab `10-*` getrennt weiterentwickeln, aber nicht in Phase 1 des Runners einbauen.
-5. Erste Beispiel-Tasks für RLN und WoT anlegen.
+5. Spätere RLN-, RLS- und WoT-Agenten erst auf dieser Build-Agent-Basis spezifizieren.
 
 ## Arbeitsweise
 

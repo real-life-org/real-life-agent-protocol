@@ -9,3 +9,6 @@
 - Runner-Roadmap mit P0/P1/P2 für Review-/Status-Loop, Attach/Refresh, Prompt-Übergabe, Summary-Differenzierung und Spec-Issue-Helfer angelegt.
 - Build- und Network-Agent-Profilfamilien strukturell getrennt: `01-05` für Build-Agent/Runner-Konformität, `10-12` für Network-Agent-Verhalten, Memory/Consent und Rollen.
 - `rlap-task@0.1`, `rlap-run-state@0.1`, `rlap-handoff@0.1` und `rlap-conformance-report@0.1` als P0-Build-Profile skizziert.
+- Runner-Realität nach `wot-agent-runner` PR #10-#14 eingearbeitet: aktuelle Review Threads, Attach/Refresh, Program Merge Context, Program Dashboard und Review Finding Coverage.
+- Conformance-Claim-Kandidat für `real-life-org/wot-agent-runner` ergänzt.
+- Erste Build-Agent-Beispiele für Runner-Task und Handoff ergänzt.

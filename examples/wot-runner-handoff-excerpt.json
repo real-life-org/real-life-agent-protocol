@@ -1,0 +1,124 @@
+{
+  "profile": "rlap-handoff@0.1",
+  "taskId": "runner-review-finding-coverage-slice",
+  "runId": "runner-review-finding-coverage-slice-2026-05-09T22-15-44-730Z",
+  "prUrl": "https://github.com/real-life-org/wot-agent-runner/pull/14",
+  "commits": [
+    "1536c29",
+    "63c9c07",
+    "8c5afb5"
+  ],
+  "specRefs": [
+    "https://github.com/real-life-org/real-life-agent-protocol/blob/main/01-build-agent-workflow/agent-workflow-spec.md",
+    "https://github.com/real-life-org/real-life-agent-protocol/blob/main/03-build-agent-handoff/handoff-and-conformance-report.md"
+  ],
+  "changedFiles": [
+    "src/runner.mjs",
+    "scripts/review-gate-tests.mjs",
+    "README.md",
+    "docs/github-loop.md"
+  ],
+  "acceptanceStatus": [
+    {
+      "criterion": "Review Finding Coverage appears in the GitHub summary and RLAP handoff.",
+      "status": "pass"
+    }
+  ],
+  "checks": [
+    {
+      "command": "npm run check",
+      "status": "pass"
+    },
+    {
+      "command": "node scripts/review-gate-tests.mjs",
+      "status": "pass"
+    },
+    {
+      "command": "npm run dry-run",
+      "status": "pass"
+    },
+    {
+      "command": "git diff --check",
+      "status": "pass"
+    }
+  ],
+  "reviewStatus": {
+    "local": "approve",
+    "structured": "valid",
+    "findingCoverage": "no-findings",
+    "reviewerTests": "not-requested",
+    "githubReviewGate": "not-required",
+    "github": "collected",
+    "githubThreadResolution": "not-needed"
+  },
+  "programMergeContext": {
+    "profile": "runner-program-merge-context@0.1",
+    "status": "dependencies-declared",
+    "mergeReadiness": "requires-dependency-verification",
+    "mergeGroup": "runner-rlap-p0",
+    "recommendedMergeOrder": 8,
+    "mergePositionKey": "runner-rlap-p0:000008",
+    "dependsOn": [
+      "https://github.com/real-life-org/wot-agent-runner/pull/13"
+    ],
+    "rebaseRequired": false
+  },
+  "artifacts": {
+    "statePath": "runs/runner-review-finding-coverage-slice-2026-05-09T22-15-44-730Z/state.json",
+    "runStatePath": "runs/runner-review-finding-coverage-slice-2026-05-09T22-15-44-730Z/rlap-run-state.json",
+    "handoffPath": "runs/runner-review-finding-coverage-slice-2026-05-09T22-15-44-730Z/rlap-handoff.json",
+    "conformanceReportPath": "runs/runner-review-finding-coverage-slice-2026-05-09T22-15-44-730Z/rlap-conformance-report.json"
+  },
+  "summary": {
+    "decision": {
+      "status": "ready-for-human",
+      "reason": "Prototype run completed without detected blockers."
+    },
+    "scopeGate": {
+      "status": "pass",
+      "violationCount": 0
+    },
+    "reviewer": {
+      "verdict": "approve",
+      "structuredStatus": "valid",
+      "findingCount": 0,
+      "findingCoverageStatus": "no-findings",
+      "findingResolutionCount": 0,
+      "openFindingCount": 0
+    },
+    "githubReviews": {
+      "status": "collected",
+      "reviewCount": 0,
+      "reviewCommentCount": 0,
+      "issueCommentCount": 0
+    },
+    "programMerge": {
+      "status": "dependencies-declared",
+      "mergeReadiness": "requires-dependency-verification",
+      "mergeGroup": "runner-rlap-p0",
+      "recommendedMergeOrder": 8,
+      "mergePositionKey": "runner-rlap-p0:000008",
+      "requiresHumanVerification": true
+    },
+    "githubReviewThreadResolution": {
+      "status": "not-needed",
+      "resolvedCount": 0,
+      "failedCount": 0
+    },
+    "checksTotal": 4,
+    "checksFailed": 0
+  },
+  "issues": [],
+  "blockers": [],
+  "residualRisk": [
+    "Merge remains a human decision."
+  ],
+  "humanGates": [
+    "No auto-merge.",
+    "Human verifies that findingResolutions are sufficient evidence for addressed review findings."
+  ],
+  "followUps": [
+    "Sync RLAP docs with runner reality after PR #14."
+  ],
+  "result": "ready-for-human"
+}

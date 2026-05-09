@@ -34,11 +34,30 @@ Ein `rlap-handoff@0.1` SOLLTE enthalten:
 | `acceptanceStatus[]` | Status der Akzeptanzkriterien |
 | `checks[]` | ausgeführte Checks und Ergebnis |
 | `reviewStatus` | lokale und GitHub-Review-Sicht |
+| `reviewStatus.findingCoverage` | Status offener, behobener, nicht anwendbarer und human-gate-pflichtiger Findings |
+| `reviewStatus.threadResolution` | Status aktueller, stale/outdated und resolved Review Threads |
+| `integrationStatus` | Projektion des PR-/Branch-Zustands gegen die Zielbranch |
+| `programMergeContext` | Dependency-, Merge-Group- und Reihenfolgekontext |
+| `artifacts` | Pfade zu State, Prompts, Logs, Audit-Artefakten und maschinenlesbaren RLAP-Artefakten |
+| `summary` | kompakter maschinenlesbarer Überblick für Dashboards oder nachgelagerte Agenten |
 | `issues[]` | offene Issues oder Spec-Fragen |
 | `blockers[]` | aktuelle Blocker |
 | `residualRisk[]` | bekannte Restrisiken |
 | `humanGates[]` | menschliche Entscheidungen |
 | `followUps[]` | empfohlene nächste Tasks |
+
+Der aktuelle [wot-agent-runner](https://github.com/real-life-org/wot-agent-runner) schreibt `reviewStatus.findingCoverage` als kompakten Status-String. Die zugehörigen Counts liegen im Handoff unter `summary.reviewer`.
+
+Aktuelle Runner-kompatible Felder:
+
+| Feld | Bedeutung |
+|---|---|
+| `reviewStatus.findingCoverage` | `not-run`, `no-findings`, `open`, `covered`, `incomplete`, `needs-human` oder `invalid` |
+| `summary.reviewer.findingCoverageStatus` | gleicher Coverage-Status für kompakte Dashboard-Auswertung |
+| `summary.reviewer.findingResolutionCount` | Anzahl strukturierter Resolutionen |
+| `summary.reviewer.openFindingCount` | Anzahl aktueller offener Findings |
+
+Eine Umsetzung SOLLTE `covered` nur melden, wenn keine aktuellen offenen Findings mehr existieren und alle Resolutionen die geforderte Evidence oder Begründung tragen. Ein späteres eigenes Review-Findings-Schema KANN daraus ein reichhaltigeres Objekt machen; bis dahin müssen Handoff-Consumer die aktuelle Runner-Form unterstützen.
 
 ## 3. Maschinenlesbarer Conformance Report
 
@@ -58,6 +77,23 @@ Ein `rlap-conformance-report@0.1` SOLLTE mindestens prüfen:
 | `ambiguityPolicyApplied` | boolesches Signal, ob Spec/Domain/Implementation-Klärung angewandt wurde |
 | `schemaValidations[]` | Schema-ID, Version, Artefaktpfad, Ergebnis und Fehler pro geprüftem RLAP-Artefakt |
 | `prStatusLinks` | PR, Checks, Reviews und Summary sind verlinkt |
+
+`schemaValidations[]` ist nicht optionaler Fließtext. Ein Runner, der Schema-backed Conformance behauptet, MUSS pro geprüftem Artefakt ausweisen:
+
+- Profil,
+- Schema-ID,
+- Schema-Version,
+- Schema-Pfad,
+- Artefaktpfad,
+- Validitätsstatus,
+- Fehlerliste.
+
+Mindestens erwartet werden Validierungen für:
+
+- `rlap-task@0.1`,
+- `rlap-run-state@0.1`,
+- `rlap-handoff@0.1`,
+- `rlap-conformance-report@0.1`.
 
 ## 4. Beispiel
 
@@ -93,6 +129,12 @@ Ein `rlap-conformance-report@0.1` SOLLTE mindestens prüfen:
     "violations": []
   },
   "handoffSchemaValid": true,
+  "programMergeContext": {
+    "profile": "runner-program-merge-context@0.1",
+    "mergeGroup": "runner-rlap-p0",
+    "recommendedMergeOrder": 8,
+    "mergeReadiness": "requires-dependency-verification"
+  },
   "humanGateStatus": {
     "status": "open",
     "gates": [
@@ -107,6 +149,33 @@ Ein `rlap-conformance-report@0.1` SOLLTE mindestens prüfen:
       "schemaVersion": "0.1",
       "schemaPath": "../real-life-agent-protocol/schemas/rlap-task-0.1.schema.json",
       "artifactPath": "tasks/runner-review-thread-current-state.json",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "profile": "rlap-run-state@0.1",
+      "schemaId": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-run-state-0.1.schema.json",
+      "schemaVersion": "0.1",
+      "schemaPath": "../real-life-agent-protocol/schemas/rlap-run-state-0.1.schema.json",
+      "artifactPath": "runs/.../rlap-run-state.json",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "profile": "rlap-handoff@0.1",
+      "schemaId": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-handoff-0.1.schema.json",
+      "schemaVersion": "0.1",
+      "schemaPath": "../real-life-agent-protocol/schemas/rlap-handoff-0.1.schema.json",
+      "artifactPath": "runs/.../rlap-handoff.json",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "profile": "rlap-conformance-report@0.1",
+      "schemaId": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-conformance-report-0.1.schema.json",
+      "schemaVersion": "0.1",
+      "schemaPath": "../real-life-agent-protocol/schemas/rlap-conformance-report-0.1.schema.json",
+      "artifactPath": "runs/.../rlap-conformance-report.json",
       "valid": true,
       "errors": []
     }
@@ -140,5 +209,6 @@ Ein Conformance Report SOLLTE einen dieser Gesamtstatus ausgeben:
 
 - Welche Felder gehören in das portable Handoff-Schema und welche bleiben Runner Summary?
 - Soll der Conformance Report im PR kommentiert oder nur als Audit-Artefakt gespeichert werden?
-- Wie werden Review-Bot-Zustände normalisiert?
 - Wie streng soll `stateTransitionsValid` in Attach-/Refresh-Runs sein?
+- Welche Review-Finding-Coverage-Felder sollen langfristig in ein eigenes Schema ausgelagert werden?
+- Welche Program-Merge-Context-Felder sind allgemeines RLAP und welche bleiben Runner-spezifische Erweiterung?

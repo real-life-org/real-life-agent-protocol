@@ -2,6 +2,10 @@
 
 Conformance beschreibt, wann ein Runner, Agent, Task-Format oder Workflow behaupten darf, das Real Life Agent Protocol zu unterstützen.
 
+Konkreter aktueller Build-Agent-Claim:
+
+- [wot-agent-runner Build Conformance](wot-agent-runner-build-conformance.md) beschreibt, welche RLAP-Profile der aktuelle [real-life-org/wot-agent-runner](https://github.com/real-life-org/wot-agent-runner) nach PR #14 implementiert oder auf welche er mappt.
+
 RLAP unterscheidet zwei Profilfamilien:
 
 | Familie | Profile | Zweck |
@@ -41,6 +45,8 @@ Ein Handoff ist `rlap-handoff@0.1`-konform, wenn es:
 
 - Task-ID, Run-ID, PR-URL, Commits und Spec-Refs ausweist,
 - Checks, Scope-Gate, Review-Status und Human Gates getrennt darstellt,
+- Review Finding Coverage mit Evidence oder Begründung sichtbar macht, wenn Findings adressiert wurden,
+- Program-/Dependency-Kontext als reporting-only Daten ausweisen kann,
 - Blocker, Issues, Residual Risk und Follow-ups klar benennt,
 - zwischen Ergebnis, Annahme und offener Entscheidung unterscheidet.
 
@@ -64,7 +70,10 @@ Ein Conformance Report ist `rlap-conformance-report@0.1`-konform, wenn er maschi
 - `handoffSchemaValid`,
 - `humanGateStatus`,
 - `ambiguityPolicyApplied`,
+- `schemaValidations[]`,
 - `prStatusLinks`.
+
+Wenn `schemaValidations[]` gesetzt ist, MUSS jede Validierung Profil, Schema-ID, Schema-Version, Schema-Pfad, Artefaktpfad, Validitätsstatus und Fehlerliste enthalten.
 
 ## `rlap-network-agent@0.1`
 
@@ -96,15 +105,15 @@ Eine Runner-Implementierung ist `rlap-runner-integration@0.1`-konform, wenn sie:
 - ihre Task-, Run-State- und Handoff-Artefakte auf RLAP-Begriffe mappen kann,
 - `rlap-agent-workflow@0.1` als implementiertes Profil ausweisen kann,
 - Scope-Gates, Checks, Review und Human Gates auditierbar macht,
+- aktuelle Review Threads von stale/outdated Kommentaren trennt,
+- Attach/Refresh-Runs ohne neue externe Review-Anforderung unterstützt oder bewusst als nicht unterstützt dokumentiert,
 - keine Runner-spezifischen Details als allgemeine Agent-Norm ausgibt,
 - Auto-Merge nicht als Standardverhalten nutzt.
 
 ## Noch offen
 
 - Maschinenlesbares Conformance-Manifest.
-- Task-Schema-Validatoren.
-- Dependency-/Batch-Schema.
-- Handoff-Schema.
+- Optionales eigenes Dependency-/Batch-Schema.
 - Review-Findings-Schema.
 - Role-Schema.
 - Beispiele für RLN-, WoT- und RLS-Tasks.
