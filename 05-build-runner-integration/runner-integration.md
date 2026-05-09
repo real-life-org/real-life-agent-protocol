@@ -101,6 +101,8 @@ Der Runner DARF NICHT:
 
 Der aktuelle Prototyp bleibt wertvoll und wird nicht ersetzt.
 
+Phase 1 SOLLTE keine frühe Rename-/Rebrand-Aktion erzwingen. `wot-agent-runner` kann zunächst so heißen und intern RLAP-konform werden. Die Generalisierung läuft über Program Plans, Task-Schemas, Handoffs und Conformance Reports, nicht über einen neuen Namen.
+
 Sinnvolle Entwicklungsschritte:
 
 1. `rlap-agent-workflow@0.1` in README und PR-Summary referenzieren.

@@ -39,6 +39,21 @@ Die größten Reibungsverluste liegen aktuell im Review-/Status-Loop:
 
 P0-Punkte sind Stabilitäts- und Korrektheitsarbeit am bestehenden Runner.
 
+Der P0-Fokus bleibt eng: Der bestehende Runner wird RLAP-konform als Build-Agent-Runtime. Network Agents, Agent-DIDs, App-Flows oder soziale RLN-Agenten gehören nicht in diese Phase.
+
+Der Runner muss dafür nicht umbenannt werden. Eine spätere Generalisierung soll über Program Plans und portable Task-/Handoff-/Run-State-Schemas entstehen, nicht über frühes Rebranding.
+
+Empfohlene P0-Task-Slices:
+
+1. `rlap-task@0.1` JSON Schema definieren.
+2. Bestehende Runner-Task-JSONs gegen `rlap-task@0.1` validierbar machen.
+3. Runner-State auf `rlap-run-state@0.1` mappen.
+4. Agent Runner Summary als `rlap-handoff@0.1` strukturieren.
+5. Maschinenlesbaren Conformance Report pro Run erzeugen.
+6. Ambiguity Policy in Implementer-/Reviewer-Prompts verankern.
+7. Dependency-/Merge-Metadaten in Tasks ergänzen: `dependsOn`, `blocks`, `mergeGroup`, `recommendedMergeOrder`, `rebaseRequired`, `supersedes`.
+8. Selbstprüfung ausgeben: `implements: rlap-agent-workflow@0.1`.
+
 ### 3.1 Aktuelle Review-Blocker korrekt bestimmen
 
 Der Runner MUSS unterscheiden:

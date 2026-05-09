@@ -43,22 +43,25 @@ Der größere Rahmen unterscheidet zwei Agentenfamilien:
 
 | Bereich | Zweck |
 |---|---|
-| [01-agent-workflow/agent-workflow-spec.md](01-agent-workflow/agent-workflow-spec.md) | Spec-to-Task-to-PR Workflow aus der WoT-Runner-Praxis |
-| [02-network-agent-behavior/network-agent-behavior.md](02-network-agent-behavior/network-agent-behavior.md) | Verhalten von Agenten im lebendigen RLN-Kontext |
-| [03-agent-memory-consent/memory-consent.md](03-agent-memory-consent/memory-consent.md) | Erinnerung, Sichtbarkeit und Zustimmung |
-| [04-agent-roles/roles.md](04-agent-roles/roles.md) | Build- und Network-Agent-Rollen |
-| [05-runner-integration/runner-integration.md](05-runner-integration/runner-integration.md) | Verhältnis zwischen RLAP und WoT Agent Runner |
-| [05-runner-integration/runner-roadmap.md](05-runner-integration/runner-roadmap.md) | Priorisierte Weiterentwicklung des WoT Agent Runner |
+| [01-build-agent-workflow/agent-workflow-spec.md](01-build-agent-workflow/agent-workflow-spec.md) | Spec-to-Task-to-PR Workflow aus der WoT-Runner-Praxis |
+| [02-build-agent-task/task.md](02-build-agent-task/task.md) | `rlap-task@0.1` und Dependency-/Merge-Metadaten |
+| [03-build-agent-handoff/handoff-and-conformance-report.md](03-build-agent-handoff/handoff-and-conformance-report.md) | `rlap-handoff@0.1` und maschinenlesbarer Conformance Report |
+| [04-build-agent-run-state/run-state.md](04-build-agent-run-state/run-state.md) | `rlap-run-state@0.1` und portable Runner-Zustände |
+| [05-build-runner-integration/runner-integration.md](05-build-runner-integration/runner-integration.md) | Verhältnis zwischen RLAP und WoT Agent Runner |
+| [05-build-runner-integration/runner-roadmap.md](05-build-runner-integration/runner-roadmap.md) | Priorisierte Weiterentwicklung des WoT Agent Runner |
+| [10-network-agent-behavior/network-agent-behavior.md](10-network-agent-behavior/network-agent-behavior.md) | Verhalten von Agenten im lebendigen RLN-Kontext |
+| [11-memory-consent/memory-consent.md](11-memory-consent/memory-consent.md) | Erinnerung, Sichtbarkeit und Zustimmung |
+| [12-network-agent-roles/roles.md](12-network-agent-roles/roles.md) | Network-Agent-Rollen |
 | [schemas](schemas/) | Maschinenlesbare Task-, Run- und Handoff-Schemata |
 | [examples](examples/) | Beispiel-Tasks, Handoffs und Review-Artefakte |
 | [conformance](conformance/) | Prüfbarkeit von Workflow-, Network-, Memory- und Runner-Conformance |
 
 ## Aktueller Arbeitsfokus
 
-1. `01-agent-workflow` als Runner-kompatiblen Workflow Contract stabilisieren.
-2. `05-runner-integration` und die Runner-Roadmap auf den bestehenden WoT Agent Runner anwenden.
-3. `02-network-agent-behavior` für Pax, lokale Kreise und Quest-Vorschläge konkretisieren.
-4. Ein minimales Task-, Handoff- und Role-Schema ableiten.
+1. `01-build-agent-workflow` als Runner-kompatiblen Workflow Contract stabilisieren.
+2. `02-build-agent-task` und `03-build-agent-handoff` als P0-Profile konkretisieren.
+3. `05-build-runner-integration` und die Runner-Roadmap auf den bestehenden WoT Agent Runner anwenden.
+4. Network-Agent-Profile ab `10-*` getrennt weiterentwickeln, aber nicht in Phase 1 des Runners einbauen.
 5. Erste Beispiel-Tasks für RLN und WoT anlegen.
 
 ## Arbeitsweise

@@ -10,7 +10,7 @@
 
 Diese Spec beschreibt, wie Agenten Menschen, Kreise, Crews, Hosts, Quests, Orte, Ressourcen, Veranstaltungen und Follow-ups im Real Life Network unterstützen dürfen.
 
-Sie ergänzt [01-agent-workflow](../01-agent-workflow/agent-workflow-spec.md). Dort geht es um agentische Arbeit an Specs, Code, Tests und PRs. Hier geht es um Agenten als eingebettete Teilnehmer und Unterstützer im Netzwerk.
+Sie ergänzt [01-build-agent-workflow](../01-build-agent-workflow/agent-workflow-spec.md). Dort geht es um agentische Arbeit an Specs, Code, Tests und PRs. Hier geht es um Agenten als eingebettete Teilnehmer und Unterstützer im Netzwerk.
 
 ## 2. Grundsatz
 
