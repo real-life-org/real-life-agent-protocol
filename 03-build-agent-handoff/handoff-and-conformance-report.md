@@ -151,6 +151,33 @@ Mindestens erwartet werden Validierungen für:
       "artifactPath": "tasks/runner-review-thread-current-state.json",
       "valid": true,
       "errors": []
+    },
+    {
+      "profile": "rlap-run-state@0.1",
+      "schemaId": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-run-state-0.1.schema.json",
+      "schemaVersion": "0.1",
+      "schemaPath": "../real-life-agent-protocol/schemas/rlap-run-state-0.1.schema.json",
+      "artifactPath": "runs/.../rlap-run-state.json",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "profile": "rlap-handoff@0.1",
+      "schemaId": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-handoff-0.1.schema.json",
+      "schemaVersion": "0.1",
+      "schemaPath": "../real-life-agent-protocol/schemas/rlap-handoff-0.1.schema.json",
+      "artifactPath": "runs/.../rlap-handoff.json",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "profile": "rlap-conformance-report@0.1",
+      "schemaId": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-conformance-report-0.1.schema.json",
+      "schemaVersion": "0.1",
+      "schemaPath": "../real-life-agent-protocol/schemas/rlap-conformance-report-0.1.schema.json",
+      "artifactPath": "runs/.../rlap-conformance-report.json",
+      "valid": true,
+      "errors": []
     }
   ],
   "prStatusLinks": {
