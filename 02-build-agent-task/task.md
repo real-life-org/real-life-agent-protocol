@@ -27,7 +27,7 @@ Dieses Profil gehört zur Build-Agent-Familie. Es beschreibt nicht das Verhalten
 |---|---|---|
 | `id` | ja | stabile Task-ID |
 | `title` | ja | kurze menschenlesbare Aufgabe |
-| `kind` | ja | `spec`, `implementation`, `test`, `playbook`, `rollout`, `review`, `ops` |
+| `kind` | empfohlen | `spec`, `implementation`, `test`, `playbook`, `rollout`, `review`, `ops`; ohne Angabe gilt für aktuelle Runner-Kompatibilität `implementation` |
 | `repo` | ja* | Zielrepository oder lokaler Repo-Key |
 | `repoRoot` | kompatibel | aktueller Alias des `wot-agent-runner`; portable Runtimes SOLLTEN langfristig `repo` verwenden |
 | `baseBranch` | empfohlen | Branch, auf dem der Task starten soll |

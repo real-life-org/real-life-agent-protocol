@@ -6,7 +6,6 @@
   "required": [
     "id",
     "title",
-    "kind",
     "specRefs",
     "allowedScope",
     "acceptance",
