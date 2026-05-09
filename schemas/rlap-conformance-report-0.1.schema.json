@@ -16,6 +16,7 @@
     "humanGateStatus",
     "prStatusLinks",
     "ambiguityPolicyApplied",
+    "schemaValidations",
     "summary"
   ],
   "properties": {
@@ -146,6 +147,42 @@
     "ambiguityPolicy": {
       "type": "object",
       "additionalProperties": true
+    },
+    "schemaValidations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "profile",
+          "schemaId",
+          "schemaVersion",
+          "schemaPath",
+          "artifactPath",
+          "valid",
+          "errors"
+        ],
+        "properties": {
+          "profile": { "$ref": "#/$defs/nonEmptyString" },
+          "schemaId": { "$ref": "#/$defs/nonEmptyString" },
+          "schemaVersion": { "$ref": "#/$defs/nonEmptyString" },
+          "schemaPath": { "type": ["string", "null"] },
+          "artifactPath": { "$ref": "#/$defs/nonEmptyString" },
+          "valid": { "type": "boolean" },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["path", "message"],
+              "properties": {
+                "path": { "$ref": "#/$defs/nonEmptyString" },
+                "message": { "$ref": "#/$defs/nonEmptyString" }
+              },
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": true
+      }
     },
     "summary": {
       "type": "object",

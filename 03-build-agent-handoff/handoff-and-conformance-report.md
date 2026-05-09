@@ -56,6 +56,7 @@ Ein `rlap-conformance-report@0.1` SOLLTE mindestens prüfen:
 | `handoffSchemaValid` | Handoff erfüllt `rlap-handoff@0.1` |
 | `humanGateStatus` | Human Gates sind offen, erfüllt oder nicht anwendbar |
 | `ambiguityPolicyApplied` | boolesches Signal, ob Spec/Domain/Implementation-Klärung angewandt wurde |
+| `schemaValidations[]` | Schema-ID, Version, Artefaktpfad, Ergebnis und Fehler pro geprüftem RLAP-Artefakt |
 | `prStatusLinks` | PR, Checks, Reviews und Summary sind verlinkt |
 
 ## 4. Beispiel
@@ -99,6 +100,17 @@ Ein `rlap-conformance-report@0.1` SOLLTE mindestens prüfen:
     ]
   },
   "ambiguityPolicyApplied": true,
+  "schemaValidations": [
+    {
+      "profile": "rlap-task@0.1",
+      "schemaId": "https://raw.githubusercontent.com/real-life-org/real-life-agent-protocol/main/schemas/rlap-task-0.1.schema.json",
+      "schemaVersion": "0.1",
+      "schemaPath": "../real-life-agent-protocol/schemas/rlap-task-0.1.schema.json",
+      "artifactPath": "tasks/runner-review-thread-current-state.json",
+      "valid": true,
+      "errors": []
+    }
+  ],
   "prStatusLinks": {
     "prUrl": "https://github.com/real-life-org/wot-agent-runner/pull/123",
     "summaryPath": "runs/.../github-run-summary.md",
