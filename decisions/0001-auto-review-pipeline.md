@@ -71,15 +71,16 @@ PRs werden in drei Tiers klassifiziert, mit unterschiedlichen Review- und Merge-
 
 | Tier | Kriterium | Reviewer-Setup | Human Gate |
 |---|---|---|---|
-| **trivial** | ≤10 changed lines, nur unter `**/*.md`, `**/*.test.ts`, `**/fixtures/**`, `formatter-only` | Self-Review + CodeRabbit | **Auto-Merge** wenn grün |
-| **standard** | ≤200 changed lines, kein Touch auf `spec/`, `crypto/`, `sync/`, `core/` | Self-Review + Cross-AI + CodeRabbit | Human Click (kein Pingpong nötig) |
-| **spec-relevant** | Touch auf `spec/`, `crypto/`, `sync/`, `core/`, oder >200 Zeilen | Self-Review + Cross-AI + Adversarial-Pair + CodeRabbit + Copilot | Human Click mit expliziter Sign-Off-Begründung |
+| **trivial** | ≤10 changed lines, reine nicht-normative Dokumentation, Kommentar-/Typo-Fixes oder formatter-only; kein Touch auf Tests, Fixtures, CI, Schemas, Vektoren, Specs oder ADRs | Self-Review + CodeRabbit | **Auto-Merge** wenn grün |
+| **standard** | ≤200 changed lines, kein Touch auf normative Spec-/Protocol-/Crypto-/Sync-/Core-/Conformance-Surfaces | Self-Review + Cross-AI + CodeRabbit | Human Click (kein Pingpong nötig) |
+| **spec-relevant** | Touch auf `spec/`, `crypto/`, `sync/`, `core/`, `schemas/`, `test-vectors/`, `conformance/`, `decisions/`, CI/security config, oder >200 Zeilen | Self-Review + Cross-AI + Adversarial-Pair + CodeRabbit + Copilot | Human Click mit expliziter Sign-Off-Begründung |
 
 **Details:**
 
 - Tier-Bestimmung erfolgt automatisch im Runner aus `changed-files`, `loc-delta` und `allowedScope` des Tasks.
 - Task-Files können `tierOverride` setzen (für ungewöhnliche Fälle); Override SOLLTE im Task begründet werden.
-- Trivial-Tier nutzt das Cloudflare-["Break Glass"](https://blog.cloudflare.com/ai-code-review/)-Pattern: Auto-Merge ist Default, jeder kann mit Kommentar `/break-glass <grund>` überschreiben — das löst Human Gate aus.
+- Tests und Fixtures sind nur dann `trivial`, wenn sie offensichtlich rein mechanisch umformatiert wurden. Neue, gelöschte oder semantisch veränderte Tests/Fixtures sind mindestens `standard`; Conformance- oder Spec-Fixtures sind `spec-relevant`.
+- Trivial-Tier nutzt das Cloudflare-["Break Glass"](https://blog.cloudflare.com/ai-code-review/)-Pattern: Auto-Merge ist Default, aber nur berechtigte Maintainer, Code-Owner oder definierte Runner-Operatoren können mit Kommentar `/break-glass <grund>` überschreiben — das löst Human Gate aus. Kommentare anderer Nutzer werden auditiert, aber nicht als Gate-Signal gewertet.
 - Auto-Merge wird über Mergify (oder GitHub-native auto-merge) implementiert; Konfiguration liegt im Ziel-Repo (z.B. `.mergify.yml` in `wot-agent-runner`, später `wot-core`).
 
 **Begründung:**
@@ -87,7 +88,7 @@ PRs werden in drei Tiers klassifiziert, mit unterschiedlichen Review- und Merge-
 - Anton wird von Trivial-PRs entlastet.
 - Spec-relevant Tier behält volle Sorgfalt (Adversarial-Pair entspricht dem `feedback_dual_review`-Pattern).
 - Tier-Klassifizierung ist deterministisch und nachvollziehbar.
-- Break-Glass-Pattern erlaubt Override, ohne dass standardmäßig blockiert wird.
+- Break-Glass-Pattern erlaubt autorisierten Override, ohne dass standardmäßig blockiert wird.
 
 **Konsequenzen:**
 
@@ -103,8 +104,8 @@ Eine kanonische Test-Vektoren-Suite für die WoT-Spec wird im `wot-spec`-Repo ge
 **Details:**
 
 - Test-Vektoren decken: BIP39-Mnemonic-Generation, HKDF-Key-Derivation, Ed25519-Signaturen, X25519-Key-Wrap, ECIES-Round-Trip, Vouching-Chains, Membership-Updates, Attestation-Roundtrips.
-- Vektoren liegen als JSON in `wot-spec/conformance/vectors/` mit machine-readable Schema.
-- `wot-core` läuft die Vektoren in jedem CI-Run; ein neuer Vektor-Set-Release im `wot-spec` triggert (via Workflow-Bot) einen Update-PR in `wot-core`.
+- Vektoren liegen als JSON in `wot-spec/test-vectors/`; `wot-spec/conformance/manifest.json` ordnet Profile, Spec-Dokumente, Schemas und Vektor-Sektionen maschinenlesbar zu.
+- `wot-core` läuft vendored Kopien dieser Vektoren in jedem CI-Run; ein neuer Vektor-Set-Release im `wot-spec` triggert (via Workflow-Bot) einen Update-PR in `wot-core`, der die Fixtures byte-identisch aktualisiert.
 - Bei Spec-Änderungen, die Vektoren brechen, MUSS der `wot-spec`-PR die Vektoren mit-aktualisieren und die Begründung in der PR-Description benennen.
 - Andere TypeScript-/Future-Implementations (z.B. `real-life-stack`) nutzen dieselben Vektoren.
 
