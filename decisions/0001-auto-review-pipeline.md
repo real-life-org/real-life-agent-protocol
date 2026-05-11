@@ -1,6 +1,6 @@
 # ADR 0001: Auto-Review-Pipeline und Risk-Tiered Merging
 
-**Status:** Entwurf
+**Status:** Akzeptiert
 **Datum:** 2026-05-11
 **Deciders:** Anton Tranelis, Codex, Claude (Eli)
 **Scope:** Build-Agent-Workflow im `wot-agent-runner` und nachgelagerte Review-Disziplin
