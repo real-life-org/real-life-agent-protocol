@@ -59,6 +59,26 @@ Ein Task SOLLTE diese Felder unterstützen:
 
 Diese Felder sind kein automatischer Merge-Befehl. Sie dienen Program Operator, Runner und Human Maintainer als Planungsdaten.
 
+### 4.1 Stacked-PR-Konvention
+
+Wenn ein Task autonom in einer Slice-Kette produziert wird (typisch für Codex Goal Mode oder andere langlaufende Agents) und `dependsOn[]` **genau einen** Vorgänger-Task referenziert, dessen `targetBranch` bekannt und noch nicht gemerged ist, dann:
+
+- `baseBranch` SOLL der `targetBranch` des Vorgängers sein, nicht der Default-Branch des Repos.
+- `targetBranch` SOLL einen Branch-Namen verwenden, der diese Reihenfolge widerspiegelt (z. B. die Task-ID als Suffix).
+
+Beispiel-Kette:
+
+```text
+spec-vnext (default)
+  └─ feat/slice-a       (PR #50,  Task A,  dependsOn: [])
+        └─ feat/slice-b (PR #51,  Task B,  dependsOn: ["A"],  baseBranch: feat/slice-a)
+              └─ feat/slice-c (PR #52, Task C, dependsOn: ["B"], baseBranch: feat/slice-b)
+```
+
+Wenn PR #50 gemerged wird, retargetet GitHub `feat/slice-b` automatisch auf `spec-vnext` — die Kette löst sich von unten auf, neue Dirty-PRs durch parallele Arbeit entstehen nicht.
+
+Wenn `dependsOn[]` mehrere Vorgänger enthält oder einer der referenzierten Tasks bereits gemerged ist, fällt der Task auf den Default-Branch des Repos zurück. Der Runner SOLL diese Auflösung emittieren (z. B. als `workspace.planned`-Event-Data: `dependsOn`, `effectiveBaseBranch`, `reason`).
+
 ## 5. Beispiel
 
 ```json
