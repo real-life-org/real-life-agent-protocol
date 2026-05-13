@@ -82,6 +82,9 @@ spec-vnext (default)
 
 Wenn PR #50 gemerged wird, KANN GitHub `feat/slice-b` automatisch auf `spec-vnext` retargeten. Runner, Dashboard und Human Maintainer DÜRFEN sich darauf aber nicht verlassen. Vor dem Merge eines Child-PR MUSS geprüft werden, ob `baseBranch` noch auf einen bereits integrierten Vorgänger-Branch zeigt. In diesem Fall muss der PR retargeted oder anderweitig integriert werden, bevor er gemerged wird.
 
+**Merge-Strategie für Stacked-Parents.** Ein Parent-PR mit offenen Children SOLL mit Merge-Commit gemerged werden, nicht mit Squash-Merge. Begründung: Bei Squash kollabiert GitHub die Parent-Commits in einen neuen Commit mit anderem SHA und Tree-Hash; der Child-Branch behält die Original-Commits in seiner History; nach Retarget auf den Default-Branch zeigt der Diff alle ursprünglichen Parent-Commits zusätzlich zum Child-eigenen Diff, und der nötige Rebase trifft auf jedem dieser Commits inhaltliche Konflikte. Mit Merge-Commit bleiben die Parent-Commit-SHAs vom Default-Branch aus erreichbar; ein Retarget des Child ist konfliktfrei.
+Falls aus repo-übergreifenden Gründen Squash-Merge erzwungen ist, MUSS der Child nach Retarget rebased werden, bevor er gemerged wird; diese Rebase-Kosten sind Teil der Slice-Planung und nicht der Stack-Konvention selbst.
+
 Wenn ein Slice unabhängig ist, SOLL er `dependsOn: []` verwenden und auf dem Integrationsbranch des Repos basieren. Falls bereits ein unabhängiger PR in derselben Lane auf Human Merge wartet, SOLL der Program Operator warten oder explizit eine separate Lane planen, statt aus Durchsatzgründen zu stacken.
 
 Wiederkehrende Hotspot-Dateien wie zentrale Coverage-Tabellen, Referenzimplementierungs-Übersichten, große Interop-Fixtures oder breite Sammeltests SOLLTEN nicht in jedem Slice aktualisiert werden. Die bevorzugte Form ist:
