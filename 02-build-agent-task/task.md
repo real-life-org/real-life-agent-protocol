@@ -61,12 +61,17 @@ Diese Felder sind kein automatischer Merge-Befehl. Sie dienen Program Operator, 
 
 ### 4.1 Stacked-PR-Konvention
 
-Wenn ein Task autonom in einer Slice-Kette produziert wird (typisch für Codex Goal Mode oder andere langlaufende Agents) und `dependsOn[]` **genau einen** Vorgänger-Task referenziert, dessen `targetBranch` bekannt und noch nicht gemerged ist, dann:
+`dependsOn[]` beschreibt fachliche oder technische Abhängigkeiten. Es ist kein Signal, dass der Runner automatisch maximal weiterstacken soll.
+
+Ein Task SOLL nur dann auf den `targetBranch` eines Vorgängers gestackt werden, wenn der neue Task Code, Schemas, Fixtures oder Tests aus einem noch offenen Vorgänger-PR benötigt. Dokumentationskontinuität, Coverage-Tabellen, Review-Komfort oder der Wunsch nach kontinuierlicher Agent-Auslastung reichen nicht als Stack-Grund.
+
+Wenn ein Task autonom in einer Slice-Kette produziert wird und `dependsOn[]` **genau einen** Vorgänger-Task referenziert, dessen `targetBranch` bekannt, noch nicht gemerged und tatsächlich für den neuen Slice erforderlich ist, dann:
 
 - `baseBranch` SOLL der `targetBranch` des Vorgängers sein, nicht der Default-Branch des Repos.
 - `targetBranch` SOLL einen Branch-Namen verwenden, der diese Reihenfolge widerspiegelt (z. B. die Task-ID als Suffix).
+- die Stack-Tiefe SOLL klein bleiben; lange lineare Ketten sind zu vermeiden, wenn keine direkte Code-Abhängigkeit besteht.
 
-Beispiel-Kette:
+Beispiel für eine echte Code-Abhängigkeitskette:
 
 ```text
 spec-vnext (default)
@@ -75,7 +80,15 @@ spec-vnext (default)
               └─ feat/slice-c (PR #52, Task C, dependsOn: ["B"], baseBranch: feat/slice-b)
 ```
 
-Wenn PR #50 gemerged wird, retargetet GitHub `feat/slice-b` automatisch auf `spec-vnext` — die Kette löst sich von unten auf, neue Dirty-PRs durch parallele Arbeit entstehen nicht.
+Wenn PR #50 gemerged wird, KANN GitHub `feat/slice-b` automatisch auf `spec-vnext` retargeten. Runner, Dashboard und Human Maintainer DÜRFEN sich darauf aber nicht verlassen. Vor dem Merge eines Child-PR MUSS geprüft werden, ob `baseBranch` noch auf einen bereits integrierten Vorgänger-Branch zeigt. In diesem Fall muss der PR retargeted oder anderweitig integriert werden, bevor er gemerged wird.
+
+Wenn ein Slice unabhängig ist, SOLL er `dependsOn: []` verwenden und auf dem Integrationsbranch des Repos basieren. Falls bereits ein unabhängiger PR in derselben Lane auf Human Merge wartet, SOLL der Program Operator warten oder explizit eine separate Lane planen, statt aus Durchsatzgründen zu stacken.
+
+Wiederkehrende Hotspot-Dateien wie zentrale Coverage-Tabellen, Referenzimplementierungs-Übersichten, große Interop-Fixtures oder breite Sammeltests SOLLTEN nicht in jedem Slice aktualisiert werden. Die bevorzugte Form ist:
+
+- fokussierte Implementierungs- und Teständerungen im Slice-PR,
+- Slice-Evidenz im Runner-Handoff oder PR-Body,
+- gebündelte Konsolidierungs-PRs für zentrale Docs, Coverage und Vektor-Inventare nach einem Batch.
 
 Wenn `dependsOn[]` mehrere Vorgänger enthält oder einer der referenzierten Tasks bereits gemerged ist, fällt der Task auf den Default-Branch des Repos zurück. Der Runner SOLL diese Auflösung emittieren (z. B. als `workspace.planned`-Event-Data: `dependsOn`, `effectiveBaseBranch`, `reason`).
 
