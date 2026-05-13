@@ -59,6 +59,42 @@ Ein Task SOLLTE diese Felder unterstützen:
 
 Diese Felder sind kein automatischer Merge-Befehl. Sie dienen Program Operator, Runner und Human Maintainer als Planungsdaten.
 
+### 4.1 Stacked-PR-Konvention
+
+`dependsOn[]` beschreibt fachliche oder technische Abhängigkeiten. Es ist kein Signal, dass der Runner automatisch maximal weiterstacken soll.
+
+Ein Task SOLL nur dann auf den `targetBranch` eines Vorgängers gestackt werden, wenn der neue Task Code, Schemas, Fixtures oder Tests aus einem noch offenen Vorgänger-PR benötigt. Dokumentationskontinuität, Coverage-Tabellen, Review-Komfort oder der Wunsch nach kontinuierlicher Agent-Auslastung reichen nicht als Stack-Grund.
+
+Wenn ein Task autonom in einer Slice-Kette produziert wird und `dependsOn[]` **genau einen** Vorgänger-Task referenziert, dessen `targetBranch` bekannt, noch nicht gemerged und tatsächlich für den neuen Slice erforderlich ist, dann:
+
+- `baseBranch` SOLL der `targetBranch` des Vorgängers sein, nicht der Default-Branch des Repos.
+- `targetBranch` SOLL einen Branch-Namen verwenden, der diese Reihenfolge widerspiegelt (z. B. die Task-ID als Suffix).
+- die Stack-Tiefe SOLL klein bleiben; lange lineare Ketten sind zu vermeiden, wenn keine direkte Code-Abhängigkeit besteht.
+
+Beispiel für eine echte Code-Abhängigkeitskette:
+
+```text
+spec-vnext (default)
+  └─ feat/slice-a       (PR #50,  Task A,  dependsOn: [])
+        └─ feat/slice-b (PR #51,  Task B,  dependsOn: ["A"],  baseBranch: feat/slice-a)
+              └─ feat/slice-c (PR #52, Task C, dependsOn: ["B"], baseBranch: feat/slice-b)
+```
+
+Wenn PR #50 gemerged wird, KANN GitHub `feat/slice-b` automatisch auf `spec-vnext` retargeten. Runner, Dashboard und Human Maintainer DÜRFEN sich darauf aber nicht verlassen. Vor dem Merge eines Child-PR MUSS geprüft werden, ob `baseBranch` noch auf einen bereits integrierten Vorgänger-Branch zeigt. In diesem Fall muss der PR retargeted oder anderweitig integriert werden, bevor er gemerged wird.
+
+**Merge-Strategie für Stacked-Parents.** Ein Parent-PR mit offenen Children SOLL mit Merge-Commit gemerged werden, nicht mit Squash-Merge. Begründung: Bei Squash kollabiert GitHub die Parent-Commits in einen neuen Commit mit anderem SHA und Tree-Hash; der Child-Branch behält die Original-Commits in seiner History; nach Retarget auf den Default-Branch zeigt der Diff alle ursprünglichen Parent-Commits zusätzlich zum Child-eigenen Diff, und der nötige Rebase trifft auf jedem dieser Commits inhaltliche Konflikte. Mit Merge-Commit bleiben die Parent-Commit-SHAs vom Default-Branch aus erreichbar; ein Retarget des Child ist konfliktfrei.
+Falls aus repo-übergreifenden Gründen Squash-Merge erzwungen ist, MUSS der Child nach Retarget rebased werden, bevor er gemerged wird; diese Rebase-Kosten sind Teil der Slice-Planung und nicht der Stack-Konvention selbst.
+
+Wenn ein Slice unabhängig ist, SOLL er `dependsOn: []` verwenden und auf dem Integrationsbranch des Repos basieren. Falls bereits ein unabhängiger PR in derselben Lane auf Human Merge wartet, SOLL der Program Operator warten oder explizit eine separate Lane planen, statt aus Durchsatzgründen zu stacken.
+
+Wiederkehrende Hotspot-Dateien wie zentrale Coverage-Tabellen, Referenzimplementierungs-Übersichten, große Interop-Fixtures oder breite Sammeltests SOLLTEN nicht in jedem Slice aktualisiert werden. Die bevorzugte Form ist:
+
+- fokussierte Implementierungs- und Teständerungen im Slice-PR,
+- Slice-Evidenz im Runner-Handoff oder PR-Body,
+- gebündelte Konsolidierungs-PRs für zentrale Docs, Coverage und Vektor-Inventare nach einem Batch.
+
+Wenn `dependsOn[]` mehrere Vorgänger enthält oder einer der referenzierten Tasks bereits gemerged ist, fällt der Task auf den Default-Branch des Repos zurück. Der Runner SOLL diese Auflösung emittieren (z. B. als `workspace.planned`-Event-Data: `dependsOn`, `effectiveBaseBranch`, `reason`).
+
 ## 5. Beispiel
 
 ```json
