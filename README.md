@@ -76,4 +76,4 @@ Der größere Rahmen unterscheidet zwei Agentenfamilien:
 
 ## Lizenz
 
-Noch zu entscheiden.
+[Creative Commons Attribution 4.0](LICENSE) (CC BY 4.0)
