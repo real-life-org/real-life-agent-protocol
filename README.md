@@ -76,4 +76,7 @@ Der größere Rahmen unterscheidet zwei Agentenfamilien:
 
 ## Lizenz
 
-Noch zu entscheiden.
+Die Spezifikationstexte stehen unter
+[Creative Commons Attribution 4.0](LICENSE) (CC BY 4.0). Die JSON-Schemas in
+`schemas/` und die JSON-Beispiele in `examples/` stehen unter der
+[Apache License 2.0](LICENSE-CODE).
